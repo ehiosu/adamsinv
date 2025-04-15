@@ -180,7 +180,7 @@ export default function Wallet() {
           ethersProvider
         );
         const tokenDec = await bondToken.decimals(); // Assumes same decimals
-        // setTokenDecimals(tokenDec);
+     
 
         // Investment contract
         const investmentContract = new ethers.Contract(
@@ -202,15 +202,6 @@ export default function Wallet() {
         setBondBalance(ethers.formatUnits(bondBal, tokenDec));
         setMoneyMarketBalance(ethers.formatUnits(mmBal, tokenDec));
         setEquityBalance(ethers.formatUnits(equityBal, tokenDec));
-
-        // Fetch total invested
-        //const [mmInvested, equityInvested, bondInvested] =
-          //await investmentContract.getTotalInvested(accounts[0]);
-        //setTotalInvested({
-          //moneyMarket: ethers.formatEther(mmInvested),
-          //equity: ethers.formatEther(equityInvested),
-          //bonds: ethers.formatEther(bondInvested),
-        //});
 
         // Fetch wallet transactions
         const walletTxs = await walletContract.getTransactionHistory(
@@ -310,7 +301,10 @@ export default function Wallet() {
     //     setLoading(false);
     //     return toast.error("Failed to initialize: " + err.message);
     //   }
-    // };
+    }catch(err){
+      setLoading(false);
+      return toast.error("Failed to initialize: " + err.message);
+    }}
 
     connectWallet();
   }, []);
