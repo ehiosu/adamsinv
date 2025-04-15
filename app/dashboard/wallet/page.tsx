@@ -230,87 +230,87 @@ export default function Wallet() {
         setTransactions(formattedWalletTxs);
 
         // Fetch investment transactions
-        const investTxs = await investmentContract.getTransactionHistory();
-        const userInvestTxs = investTxs.filter(
-          (tx) => tx.user.toLowerCase() === accounts[0].toLowerCase()
-        );
-        const formattedInvestTxs = userInvestTxs.map((tx) => ({
-          type: ["Money Market", "Equity", "Bonds"][tx.investmentType],
-          token: ["MMS", "EQUITY", "BOND"][tx.investmentType],
-          amount: ethers.formatUnits(tx.amount, tokenDec),
-          timestamp: new Date(Number(tx.timestamp) * 1000).toLocaleString(),
-        }));
-        setInvestmentTransactions(formattedInvestTxs);
+        // const investTxs = await investmentContract.getTransactionHistory();
+        // const userInvestTxs = investTxs.filter(
+        //   (tx) => tx.user.toLowerCase() === accounts[0].toLowerCase()
+        // );
+        // const formattedInvestTxs = userInvestTxs.map((tx) => ({
+        //   type: ["Money Market", "Equity", "Bonds"][tx.investmentType],
+        //   token: ["MMS", "EQUITY", "BOND"][tx.investmentType],
+        //   amount: ethers.formatUnits(tx.amount, tokenDec),
+        //   timestamp: new Date(Number(tx.timestamp) * 1000).toLocaleString(),
+        // }));
+        // setInvestmentTransactions(formattedInvestTxs);
 
-        setLoading(false);
+        // setLoading(false);
 
         // Listen for account changes
-        provider.on("accountsChanged", async (accounts) => {
-          setAccount(accounts[0] || "");
-          if (accounts[0]) {
-            try {
-              const ethBal = await walletContract.getEthBalance(accounts[0]);
-              const usdtBal = await walletContract.getUsdtBalance(accounts[0]);
-              const bondBal = await bondToken.balanceOf(accounts[0]);
-              const mmBal = await moneyMarketToken.balanceOf(accounts[0]);
-              const equityBal = await equityToken.balanceOf(accounts[0]);
-              const [mmInvested, equityInvested, bondInvested] =
-                await investmentContract.getTotalInvested(accounts[0]);
-              setEthBalance(ethers.formatEther(ethBal));
-              setUsdtBalance(ethers.formatUnits(usdtBal, usdtDec));
-              setBondBalance(ethers.formatUnits(bondBal, tokenDec));
-              setMoneyMarketBalance(ethers.formatUnits(mmBal, tokenDec));
-              setEquityBalance(ethers.formatUnits(equityBal, tokenDec));
-              setTotalInvested({
-                moneyMarket: ethers.formatEther(mmInvested),
-                equity: ethers.formatEther(equityInvested),
-                bonds: ethers.formatEther(bondInvested),
-              });
+    //     provider.on("accountsChanged", async (accounts) => {
+    //       setAccount(accounts[0] || "");
+    //       if (accounts[0]) {
+    //         try {
+    //           const ethBal = await walletContract.getEthBalance(accounts[0]);
+    //           const usdtBal = await walletContract.getUsdtBalance(accounts[0]);
+    //           const bondBal = await bondToken.balanceOf(accounts[0]);
+    //           const mmBal = await moneyMarketToken.balanceOf(accounts[0]);
+    //           const equityBal = await equityToken.balanceOf(accounts[0]);
+    //           const [mmInvested, equityInvested, bondInvested] =
+    //             await investmentContract.getTotalInvested(accounts[0]);
+    //           setEthBalance(ethers.formatEther(ethBal));
+    //           setUsdtBalance(ethers.formatUnits(usdtBal, usdtDec));
+    //           setBondBalance(ethers.formatUnits(bondBal, tokenDec));
+    //           setMoneyMarketBalance(ethers.formatUnits(mmBal, tokenDec));
+    //           setEquityBalance(ethers.formatUnits(equityBal, tokenDec));
+    //           setTotalInvested({
+    //             moneyMarket: ethers.formatEther(mmInvested),
+    //             equity: ethers.formatEther(equityInvested),
+    //             bonds: ethers.formatEther(bondInvested),
+    //           });
 
-              const walletTxs = await walletContract.getTransactionHistory(
-                accounts[0]
-              );
-              setTransactions(
-                walletTxs.map((tx) => ({
-                  type: tx.transactionType,
-                  token: tx.token === ADDRESS_ZERO ? "ETH" : "USDT",
-                  amount:
-                    tx.token === ADDRESS_ZERO
-                      ? ethers.formatEther(tx.amount)
-                      : ethers.formatUnits(tx.amount, usdtDec),
-                  from: tx.from,
-                  to: tx.to,
-                  timestamp: new Date(
-                    Number(tx.timestamp) * 1000
-                  ).toLocaleString(),
-                }))
-              );
+    //           const walletTxs = await walletContract.getTransactionHistory(
+    //             accounts[0]
+    //           );
+    //           setTransactions(
+    //             walletTxs.map((tx) => ({
+    //               type: tx.transactionType,
+    //               token: tx.token === ADDRESS_ZERO ? "ETH" : "USDT",
+    //               amount:
+    //                 tx.token === ADDRESS_ZERO
+    //                   ? ethers.formatEther(tx.amount)
+    //                   : ethers.formatUnits(tx.amount, usdtDec),
+    //               from: tx.from,
+    //               to: tx.to,
+    //               timestamp: new Date(
+    //                 Number(tx.timestamp) * 1000
+    //               ).toLocaleString(),
+    //             }))
+    //           );
 
-              const investTxs =
-                await investmentContract.getTransactionHistory();
-              const userInvestTxs = investTxs.filter(
-                (tx) => tx.user.toLowerCase() === accounts[0].toLowerCase()
-              );
-              setInvestmentTransactions(
-                userInvestTxs.map((tx) => ({
-                  type: ["Money Market", "Equity", "Bonds"][tx.investmentType],
-                  token: ["MMS", "EQUITY", "BOND"][tx.investmentType],
-                  amount: ethers.formatUnits(tx.amount, tokenDec),
-                  timestamp: new Date(
-                    Number(tx.timestamp) * 1000
-                  ).toLocaleString(),
-                }))
-              );
-            } catch (err) {
-              return toast.error("Account change error: " + err.message);
-            }
-          }
-        });
-      } catch (err) {
-        setLoading(false);
-        return toast.error("Failed to initialize: " + err.message);
-      }
-    };
+    //           const investTxs =
+    //             await investmentContract.getTransactionHistory();
+    //           const userInvestTxs = investTxs.filter(
+    //             (tx) => tx.user.toLowerCase() === accounts[0].toLowerCase()
+    //           );
+    //           setInvestmentTransactions(
+    //             userInvestTxs.map((tx) => ({
+    //               type: ["Money Market", "Equity", "Bonds"][tx.investmentType],
+    //               token: ["MMS", "EQUITY", "BOND"][tx.investmentType],
+    //               amount: ethers.formatUnits(tx.amount, tokenDec),
+    //               timestamp: new Date(
+    //                 Number(tx.timestamp) * 1000
+    //               ).toLocaleString(),
+    //             }))
+    //           );
+    //         } catch (err) {
+    //           return toast.error("Account change error: " + err.message);
+    //         }
+    //       }
+    //     });
+    //   } catch (err) {
+    //     setLoading(false);
+    //     return toast.error("Failed to initialize: " + err.message);
+    //   }
+    // };
 
     connectWallet();
   }, []);
