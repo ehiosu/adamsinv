@@ -180,7 +180,7 @@ export default function Wallet() {
           ethersProvider
         );
         const tokenDec = await bondToken.decimals(); // Assumes same decimals
-        setTokenDecimals(tokenDec);
+        // setTokenDecimals(tokenDec);
 
         // Investment contract
         const investmentContract = new ethers.Contract(
