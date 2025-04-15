@@ -204,13 +204,13 @@ export default function Wallet() {
         setEquityBalance(ethers.formatUnits(equityBal, tokenDec));
 
         // Fetch total invested
-        const [mmInvested, equityInvested, bondInvested] =
-          await investmentContract.getTotalInvested(accounts[0]);
-        setTotalInvested({
-          moneyMarket: ethers.formatEther(mmInvested),
-          equity: ethers.formatEther(equityInvested),
-          bonds: ethers.formatEther(bondInvested),
-        });
+        //const [mmInvested, equityInvested, bondInvested] =
+          //await investmentContract.getTotalInvested(accounts[0]);
+        //setTotalInvested({
+          //moneyMarket: ethers.formatEther(mmInvested),
+          //equity: ethers.formatEther(equityInvested),
+          //bonds: ethers.formatEther(bondInvested),
+        //});
 
         // Fetch wallet transactions
         const walletTxs = await walletContract.getTransactionHistory(
